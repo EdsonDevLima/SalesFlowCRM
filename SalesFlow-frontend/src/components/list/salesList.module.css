@@ -1,0 +1,38 @@
+.cardSales{
+  width: 280px;
+  min-height: 180px;
+  background-color:#ccc;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+.aditionalInfor{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+.status{
+position: absolute;
+top: 10px;
+right: 10px;
+}
+.date{
+  top: 30px;
+  right: 10px;
+  position: absolute;
+}
+
+.SalesList{
+  display: flex;
+  padding-top: 90px;
+  padding-left: 70px;
+}
+.ConteinerButton{
+position: absolute;
+right: 10px;
+}

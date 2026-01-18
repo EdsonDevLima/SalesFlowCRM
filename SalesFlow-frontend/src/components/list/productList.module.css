@@ -1,0 +1,23 @@
+.cardProduct{
+ width: 280px;
+ display: flex;
+ color: #1c2b42 !important;
+ justify-content: space-around;
+ position: absolute;
+ background-color: #ccc;
+ padding: 15px 0px;
+ border-radius: 3px;
+}
+.cardProduct img{
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    border-radius: 3px;
+}
+
+.listProducts{
+    padding-top: 100px;
+    padding-left: 65px;
+}

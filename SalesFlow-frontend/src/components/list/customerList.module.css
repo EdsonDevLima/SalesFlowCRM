@@ -1,0 +1,20 @@
+.customerCard{
+  width: 280px;
+  min-height: 140px;
+  background-color:#ccc;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px;
+  box-shadow: none;
+  color: #1c2b42 !important;
+  font-weight: normal;
+  border-radius: 3px;
+}
+
+.ConteinerButton{
+    position: absolute;
+    right: 20px;
+}

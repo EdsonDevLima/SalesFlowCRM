@@ -1,0 +1,10 @@
+.sectionReports{
+    width: 100%;
+    min-height: 100vh;
+    padding-top:100px ;
+    padding-left: 65px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 50px;
+}
