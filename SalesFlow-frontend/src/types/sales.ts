@@ -2,6 +2,8 @@ export interface ISales {
     id?: number;
     userId: number;
     productIds: number[];
+    status?:string
+    trackingCode?:string
     total: number;
 }
 
@@ -31,5 +33,6 @@ export interface SalesResult {
   user: User;
   products: Product[];
   total: string;
+  trackingCode?:string
   status: OrderStatus;
 }

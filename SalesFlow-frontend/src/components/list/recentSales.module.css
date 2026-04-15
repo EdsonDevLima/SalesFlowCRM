@@ -1,0 +1,150 @@
+.recentList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+/* Estilização da scrollbar */
+.recentList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.recentList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.recentList::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.recentList::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Firefox */
+.recentList {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.recentCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.recentCard:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+}
+
+.saleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.saleHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.saleId {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #111827;
+  margin: 0;
+}
+
+.status {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.status.pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status.completed {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.customer {
+  font-size: 0.85rem;
+  color: #374151;
+  margin: 0;
+}
+
+.products {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.saleFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+.total {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #059669;
+  margin: 0;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.recentCard button {
+  flex-shrink: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+}
+.nother{
+width: 100%;
+min-height: 100%;
+position: absolute;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+
+@media (max-width: 768px) {
+  .recentCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .saleFooter {
+    width: 100%;
+  }
+
+  .recentCard button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,312 @@
+.modalFormSales{
+    position: fixed;
+    background-color: rgba(117, 117, 117, 0.589);
+    width: 100%;
+    height: calc(100% - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 998;
+    left: 0;
+    top: 80px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modalFormSales form{
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    min-height: 400px;
+    height: auto;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding: 50px 30px 30px 30px;
+    background-color: #2d3e50;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modalFormSales form h2{
+    text-align: center;
+    width: 100%;
+    color: white;
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.modalFormSales form label{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    color: #e0e0e0;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.modalFormSales form input[type="text"],
+.modalFormSales form input[type="number"]{
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #3a4a5f;
+    border-radius: 6px;
+    background-color: #1e2d3d;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.modalFormSales form input[type="text"]:focus,
+.modalFormSales form input[type="number"]:focus{
+    border-color: #4a90e2;
+    background-color: #253544;
+}
+
+.modalFormSales form input[type="text"]:disabled{
+    background-color: #172533;
+    color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+.modalFormSales form textarea{
+    width: 100%;
+    min-height: 120px;
+    height: 80px;
+    max-height: 150px;
+    padding: 12px 14px;
+    border: 1px solid #3a4a5f;
+    border-radius: 6px;
+    background-color: #1e2d3d;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.modalFormSales form textarea:focus{
+    border-color: #4a90e2;
+    background-color: #253544;
+}
+
+.modalFormSales select{
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #3a4a5f;
+    border-radius: 6px;
+    background-color: #1e2d3d;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.modalFormSales select:focus{
+    border-color: #4a90e2;
+    background-color: #253544;
+}
+
+.modalFormSales select option{
+    background-color: #1e2d3d;
+    color: white;
+}
+
+.closeFormSales{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: white;
+    padding: 8px;
+    transition: all 0.3s;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 24px;
+}
+
+.closeFormSales:hover{
+    background-color: #e74c3c;
+    transform: rotate(90deg);
+}
+
+.submitButton{
+    width: 100%;
+    padding: 12px;
+    color: white;
+    background-color: #3498db;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submitButton:hover{
+    background-color: #2980b9;
+}
+
+.listContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #1e2d3d;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #3a4a5f;
+    min-height: 100px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.listContainer p{
+    color: #7a8a9f;
+    text-align: center;
+    margin: auto;
+    font-style: italic;
+}
+
+.listItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #253544;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #3a4a5f;
+    color: white;
+    gap: 10px;
+}
+
+.listItem span{
+    flex: 1;
+    font-size: 14px;
+}
+
+.removeButton {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.removeButton:hover {
+    background-color: #c0392b;
+}
+
+.buttonRegister {
+    width: 100%;
+    padding: 14px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.buttonRegister:hover {
+    background-color: #229954;
+}
+
+/* Scrollbar customizada para a lista de produtos */
+.listContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.listContainer::-webkit-scrollbar-track {
+    background: #1e2d3d;
+    border-radius: 4px;
+}
+
+.listContainer::-webkit-scrollbar-thumb {
+    background: #3a4a5f;
+    border-radius: 4px;
+}
+
+.listContainer::-webkit-scrollbar-thumb:hover {
+    background: #4a5a6f;
+}
+
+/* Scrollbar customizada para o form */
+.modalFormSales form::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modalFormSales form::-webkit-scrollbar-track {
+    background: #2d3e50;
+    border-radius: 4px;
+}
+
+.modalFormSales form::-webkit-scrollbar-thumb {
+    background: #3a4a5f;
+    border-radius: 4px;
+}
+
+.modalFormSales form::-webkit-scrollbar-thumb:hover {
+    background: #4a5a6f;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .modalFormSales{
+        top: 0;
+        height: 100%;
+        padding: 10px;
+    }
+    
+    .modalFormSales form{
+        max-width: 100%;
+        max-height: calc(100vh - 20px);
+        padding: 50px 20px 20px 20px;
+    }
+    
+    .modalFormSales form h2{
+        font-size: 22px;
+    }
+    
+    .listContainer{
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modalFormSales form{
+        padding: 50px 15px 15px 15px;
+    }
+    
+    .listItem{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .removeButton{
+        width: 100%;
+    }
+}

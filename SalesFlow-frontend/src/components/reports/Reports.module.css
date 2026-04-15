@@ -1,0 +1,44 @@
+/* Reports.module.css */
+.reportContainer {
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.reportTitle {
+  margin: 0;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.reportTitle:hover {
+  background-color: #919191;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+}
+
+.chartWrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+  padding: 0 1rem;
+}
+
+.chartOpen {
+  max-height: 500px;
+}

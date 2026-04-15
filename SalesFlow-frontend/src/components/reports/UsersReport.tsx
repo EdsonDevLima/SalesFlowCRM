@@ -1,7 +1,9 @@
+// UsersReport.tsx - Atualizado
 import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import api from '../../service/api';
 import type { ICustomer } from '../../types/customers';
+import Styles from './Reports.module.css';
 
 type ChartData = {
   week: string;
@@ -9,6 +11,7 @@ type ChartData = {
 };
 
 export function UsersReport() {
+  const [isOpen, setIsOpen] = useState(false);
   const [chartData, setChartData] = useState<ChartData[]>([
     { week: 'Primeira Semana', customers: 0 },
     { week: 'Segunda Semana', customers: 0 },
@@ -22,7 +25,6 @@ export function UsersReport() {
     try {
       const response = await api.get("user/customers");
       const data = response.data.items as ICustomer[] || [];
-      console.log(data)
       setAllCustomers(data);
     } catch (error) {
       console.error("Erro ao buscar clientes:", error);
@@ -57,9 +59,9 @@ export function UsersReport() {
     start30DaysAgo.setHours(0, 0, 0, 0);
 
     const newChartData: ChartData[] = [
-      { week: 'Primeira', customers: 10 },
-      { week: 'Segunda', customers: 5 },
-      { week: 'Terceira', customers: 8 },
+      { week: 'Primeira', customers: 0 },
+      { week: 'Segunda', customers: 0 },
+      { week: 'Terceira', customers: 0 },
       { week: 'Quarta', customers: 0 },
     ];
 
@@ -74,24 +76,35 @@ export function UsersReport() {
         newChartData[weekIndex].customers += 1;
       }
     });
-    console.log(newChartData)
+
     setChartData(newChartData);
   }, [allCustomers]);
 
   return (
-    <div>
-      <h3>Relatório de clientes por semana (últimos 30 dias)</h3>
-      <BarChart width={350} height={350} data={chartData}>
-        <XAxis dataKey="week" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar
-          dataKey="customers"
-          name="Clientes cadastrados na semana"
-          fill="#2c399dff"
-        />
-      </BarChart>
+    <div className={Styles.reportContainer}>
+      <h3 
+        className={Styles.reportTitle} 
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        Relatório de clientes por semana (últimos 30 dias)
+        <span className={`${Styles.arrow} ${isOpen ? Styles.arrowOpen : ''}`}>
+          ▼
+        </span>
+      </h3>
+      
+      <div className={`${Styles.chartWrapper} ${isOpen ? Styles.chartOpen : ''}`}>
+        <BarChart width={350} height={350} data={chartData}>
+          <XAxis dataKey="week" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar
+            dataKey="customers"
+            name="Clientes cadastrados na semana"
+            fill="#2c399dff"
+          />
+        </BarChart>
+      </div>
     </div>
   );
 }

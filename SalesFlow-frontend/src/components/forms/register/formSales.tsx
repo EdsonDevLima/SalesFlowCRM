@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Style from "./formSales.module.css";
 import { IoClose } from "react-icons/io5";
-import api from "../../service/api";
-import type { ICustomer } from "../../types/customers";
-import type { IProducts } from "../../types/products";
+import api from "../../../service/api"; 
+import type { ICustomer } from "../../../types/customers";
+import type { IProducts } from "../../../types/products"; 
 
 
 interface FormSalesProps {
@@ -19,7 +19,14 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [productQty, setProductQty] = useState(1);
 
-
+  const formatAddress = (id?:string)=>{
+    if(id !== ""){
+   const user =  allCustomers.filter((c)=>c.id == parseInt(id))[0]
+   const addressParserd = `Cidade :${user.adress.city || ""}\nRua: ${user.adress.street} \nCep: ${user.adress.zip || ""}\nNumero:${user.adress.number}`
+   return addressParserd
+    }
+      
+  }
   const [listProducts, setListProducts] = useState<
     { name: string; price: number; id:number; }[]
   >([]);
@@ -62,7 +69,6 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
   const handleForm = () => setDisplayForm(!displayForm);
 
   const addProductToList = () => {
-    if (!selectedProduct) return alert("Selecione um produto");
 
     const product = allProducts.find((p) => p.name === selectedProduct);
     if (!product) return;
@@ -87,7 +93,6 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
       };
 
       await api.post("/sales/create", body);
-      alert("Venda cadastrada com sucesso");
 
       setListProducts([]);
       setSelectedCustomer("");
@@ -99,7 +104,6 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
       await onSaleAdded();
     } catch (error) {
       console.error("Erro ao cadastrar venda:", error);
-      alert("Erro ao cadastrar venda");
     }
   };
 
@@ -122,7 +126,7 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
               Clientes:
               <select
                 value={selectedCustomer}
-                onChange={(e) => setSelectedCustomer(e.target.value)}
+                onChange={(e) => {setSelectedCustomer(e.target.value)}}
               >
                 <option disabled value="">
                   Selecione o cliente
@@ -190,7 +194,7 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
 
             <label>
               Endereço:
-              <textarea />
+              <textarea value={formatAddress(selectedCustomer)} />
             </label>
 
             <label>

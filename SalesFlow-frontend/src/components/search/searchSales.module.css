@@ -1,0 +1,16 @@
+.SearchSales{
+    margin: 0px 10px;
+}
+.SearchSales input{
+    min-height: 32px;
+    border-radius: 3px;
+    border: solid 1px black;
+    outline: none;
+    padding: 3px;
+}
+.SearchSales button{
+    min-height: 32px;
+    width: 32px;
+    border: solid 1px black;
+    outline: none;
+}

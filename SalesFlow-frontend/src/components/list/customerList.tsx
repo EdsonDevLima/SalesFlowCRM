@@ -4,12 +4,16 @@ import type { ICustomer } from "../../types/customers";
 import api from "../../service/api";
 import { FaEye } from "react-icons/fa";
 import { CiTrash } from "react-icons/ci";
-import { FormCustomer } from "../forms/formCustomer";
+import { FormCustomer } from "../forms/register/formCustomer";
+import { CustomerFormEdit } from "../forms/edit/customersEdit";
+import { SearchCustomers } from "../search/searchCustomers";
+import { toast } from "react-toastify";
 
 export function CustomersList() {
   const [allCustomers, setAllCustomers] = useState<ICustomer[]>([]);
   const [removeList, setRemoveList] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
+  const [customerEditing, setCustomerEditing] = useState<ICustomer | null>(null)
 
   const changeRemoveList = (id: number) => {
     setRemoveList((prev) =>
@@ -33,7 +37,6 @@ export function CustomersList() {
 
   const handleDeleteSelected = async () => {
     if (removeList.length === 0) {
-      alert("Selecione pelo menos um cliente");
       return;
     }
 
@@ -45,7 +48,7 @@ export function CustomersList() {
       setLoading(true);
 
       await Promise.all(
-        removeList.map((id) => api.delete(`user/customers/${id}`))
+        removeList.map((id) => api.delete(`user/${id}`))
       );
 
       setAllCustomers((prev) =>
@@ -53,10 +56,8 @@ export function CustomersList() {
       );
 
       setRemoveList([]);
-      alert("Clientes removidos com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover clientes", error);
-      alert("Erro ao remover clientes");
+      toast.info(`${error}`);
     } finally {
       setLoading(false);
     }
@@ -70,7 +71,7 @@ export function CustomersList() {
     <div>
       <div className="header-actions">
         <FormCustomer />
-
+        <SearchCustomers/>
         <button
           className="submitButton error"
           onClick={handleDeleteSelected}
@@ -83,10 +84,10 @@ export function CustomersList() {
 
       {loading && <p>Carregando...</p>}
 
-      <div className="list">
+     { allCustomers.length > 0  ? <div className="list">
         {allCustomers.map((i) => (
           <div key={i.id} className={`card-list ${Style.customerCard}`}>
-            <label className="checkbox-wrapper">
+            <label className={Style.checkboxWrapper + ` checkbox-wrapper`}>
               <input
                 type="checkbox"
                 checked={removeList.includes(i.id || 0)}
@@ -96,19 +97,29 @@ export function CustomersList() {
             </label>
 
             <div className={Style.aditionalInfor}>
-              <p>Id: {i.id}</p>
-              <p>Cliente: {i.name}</p>
-              <p>Email: {i.email}</p>
+              <p>Cód: {i.id}</p>
+              <p>{i.name}</p>
+              <p>{i.email}</p>
             </div>
 
             <div className={Style.ConteinerButton}>
-              <button className="submitButton edit">
-                <FaEye />
-              </button>
+                <button
+                  className="submitButton edit"
+                  onClick={() => setCustomerEditing(i)}
+                >
+                  <FaEye />
+                </button>
             </div>
           </div>
         ))}
-      </div>
+      </div> :<p className={Style.nother}>Nenhum cliente cadastrado</p>}
+            {customerEditing && (
+              <CustomerFormEdit
+                Customers={customerEditing}
+                displayModal={true}
+                onClose={() => setCustomerEditing(null)}
+              />
+            )}
     </div>
   );
 }

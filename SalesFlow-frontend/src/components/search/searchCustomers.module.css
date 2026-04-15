@@ -1,0 +1,16 @@
+.SearchCustomers{
+    margin: 0px 10px;
+}
+.SearchCustomers input{
+    min-height: 32px;
+    border-radius: 3px;
+    border: solid 1px black;
+    outline: none;
+    padding: 3px;
+}
+.SearchCustomers button{
+    min-height: 32px;
+    width: 32px;
+    border: solid 1px black;
+    outline: none;
+}

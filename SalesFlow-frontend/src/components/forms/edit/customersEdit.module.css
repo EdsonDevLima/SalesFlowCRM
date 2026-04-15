@@ -1,0 +1,157 @@
+.modalFormcustomer{
+    position: fixed;
+    background-color: rgba(117, 117, 117, 0.589);
+    width: 100%;
+    height: calc(100% - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 998;
+    left: 0;
+    top: 80px;
+    padding: 10px;
+}
+
+/* 👇 deixa o form mais compacto pro edit */
+.modalFormcustomer form{
+    width: 100%;
+    max-width: 800px; /* menor que o create */
+    margin: auto;
+    min-height: 350px;
+    display: flex;
+    gap: 20px;
+    background-color: #2d3e50;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    max-height: calc(100vh - 120px);
+    flex-wrap: wrap;
+}
+
+/* 👇 mantém estrutura mas mais equilibrado */
+.modalFormcustomer form > div{
+    flex: 1;
+    padding: 40px 25px 25px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 45%;
+}
+
+.modalFormcustomer form > div:first-child{
+    border-right: 1px solid #3a4a5f;
+}
+
+.modalFormcustomer form h2{
+    text-align: center;
+    color: white;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.modalFormcustomer form label{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #e0e0e0;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* inputs */
+.modalFormcustomer form input[type="text"],
+.modalFormcustomer form input[type="email"]{
+    padding: 7px 8px;
+    border: 1px solid #3a4a5f;
+    border-radius: 6px;
+    background-color: #1e2d3d;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.modalFormcustomer form input:focus{
+    border-color: #4a90e2;
+    background-color: #253544;
+}
+
+/* botão mais bonito pro edit */
+.buttonRegister {
+    width: calc(100% - 50px);
+    margin: 10px 25px 25px 25px;
+    padding: 14px;
+    background: green;
+    color: white !important;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+
+
+/* endereço */
+.addressBox{
+    padding: 15px;
+    background-color: #1e2d3d;
+    border-radius: 6px;
+    border: 1px solid #3a4a5f;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* botão fechar */
+.closeFormcustomer{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 22px;
+    transition: all 0.3s;
+}
+
+.closeFormcustomer:hover{
+    background-color: #e74c3c;
+    transform: rotate(90deg);
+}
+.conteinerEmail,.addressBox{
+   display: flex;
+   flex-direction: column;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .modalFormcustomer{
+        top: 0;
+        height: 100%;
+    }
+
+    .modalFormcustomer form{
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .modalFormcustomer form > div{
+        padding: 30px 20px;
+    }
+
+    .modalFormcustomer form > div:first-child{
+        border-right: none;
+        border-bottom: 1px solid #3a4a5f;
+    }
+}

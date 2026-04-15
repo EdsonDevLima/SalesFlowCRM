@@ -1,7 +1,9 @@
+// ProductExitReport.tsx - Atualizado
 import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import api from '../../service/api';
 import type { SalesResult } from '../../types/sales';
+import Styles from './Reports.module.css';
 
 type ChartData = {
   week: string;
@@ -9,6 +11,7 @@ type ChartData = {
 };
 
 export function ProductExitReport() {
+  const [isOpen, setIsOpen] = useState(false);
   const [chartData, setChartData] = useState<ChartData[]>([
     { week: 'Primeira Semana', sales: 0 },
     { week: 'Segunda Semana', sales: 0 },
@@ -39,7 +42,6 @@ export function ProductExitReport() {
 
   useEffect(() => {
     getSales();
-    console.log(allSales)
   }, []);
 
   useEffect(() => {
@@ -60,7 +62,7 @@ export function ProductExitReport() {
     ];
 
     allSales.forEach(sale => {
-      const createdAt = parseDate(sale.created_at|| '');
+      const createdAt = parseDate(sale.created_at || '');
 
       if (createdAt >= start30DaysAgo && createdAt <= now) {
         const diffInMs = createdAt.getTime() - start30DaysAgo.getTime();
@@ -75,19 +77,30 @@ export function ProductExitReport() {
   }, [allSales]);
 
   return (
-    <div>
-      <h3>Relatório de vendas por semana (últimos 30 dias)</h3>
-      <BarChart width={350} height={350} data={chartData}>
-        <XAxis dataKey="week" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar
-          dataKey="sales"
-          name="Vendas realizadas na semana"
-          fill="#b3c433ff"
-        />
-      </BarChart>
+    <div className={Styles.reportContainer}>
+      <h3 
+        className={Styles.reportTitle} 
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        Relatório de vendas por semana (últimos 30 dias)
+        <span className={`${Styles.arrow} ${isOpen ? Styles.arrowOpen : ''}`}>
+          ▼
+        </span>
+      </h3>
+      
+      <div className={`${Styles.chartWrapper} ${isOpen ? Styles.chartOpen : ''}`}>
+        <BarChart width={350} height={350} data={chartData}>
+          <XAxis dataKey="week" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar
+            dataKey="sales"
+            name="Vendas realizadas na semana"
+            fill="#b3c433ff"
+          />
+        </BarChart>
+      </div>
     </div>
   );
 }

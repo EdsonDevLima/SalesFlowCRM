@@ -1,0 +1,42 @@
+.menuProfileUserConteiner{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 10px;
+    top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+}
+.menuProfileUserConteiner:hover{
+    background-color: #ebedf010;
+ }   
+
+.menuProfileUserConteiner svg{
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+.profileActions{
+    position: absolute;
+    top: 60px;
+    list-style-type: none;
+    background-color:#1c2b42;
+    color: white;
+    border: solid 1px white;
+    padding: 5px;
+    cursor: pointer;
+    left: -60px;
+}
+.profileActions li{
+    padding: 5px;
+}
+.profileActions li:hover{
+    background-color: #ebedf010;
+}
+
+.buttonProfileConteiner{
+    background-color: transparent;
+    border: none;
+}

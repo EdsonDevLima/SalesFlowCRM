@@ -1,0 +1,254 @@
+.modalFormcustomer{
+    position: fixed;
+    background-color: rgba(117, 117, 117, 0.589);
+    width: 100%;
+    height: calc(100% - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 998;
+    left: 0;
+    top: 80px;
+    padding: 10px;
+    overflow-y: auto;
+}
+.conteinerEmail{
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modalFormcustomer form{
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    min-height: 400px;
+    height: auto;
+    display: flex;
+    flex-direction: row !important;
+    gap: 20px;
+    padding: 0;
+    background-color: #2d3e50;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+.modalFormcustomer form > div{
+    min-width: 300px !important;
+    flex: 1;
+    padding: 50px 30px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modalFormcustomer form > div:first-child{
+    border-right: 1px solid #3a4a5f;
+}
+
+.modalFormcustomer form h2{
+    text-align: center;
+    width: 100%;
+    color: white;
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.modalFormcustomer form label{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    color: #e0e0e0;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.modalFormcustomer form input[type="text"],
+.modalFormcustomer form input[type="email"],
+.modalFormcustomer form input[type="password"]{
+    width: 100%;
+    padding: 6px 7px;
+    border: 1px solid #3a4a5f;
+    border-radius: 6px;
+    background-color: #1e2d3d;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.modalFormcustomer form input[type="text"]:focus,
+.modalFormcustomer form input[type="email"]:focus,
+.modalFormcustomer form input[type="password"]:focus{
+    border-color: #4a90e2;
+    background-color: #253544;
+}
+
+.modalFormcustomer form input[type="text"]::placeholder,
+.modalFormcustomer form input[type="email"]::placeholder,
+.modalFormcustomer form input[type="password"]::placeholder{
+    color: #7a8a9f;
+}
+
+.closeFormcustomer{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: white;
+    padding: 8px;
+    transition: all 0.3s;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 24px;
+}
+
+.closeFormcustomer:hover{
+    background-color: #e74c3c;
+    transform: rotate(90deg);
+}
+
+.buttonRegister {
+    width: 100%;
+    padding: 14px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.buttonRegister:hover {
+    background-color: #229954;
+}
+
+.addressBox{
+    padding: 20px;
+    background-color: #1e2d3d;
+    border-radius: 6px;
+    border: 1px solid #3a4a5f;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.removeAddress{
+    width: 100%;
+    padding: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 5px;
+}
+
+.removeAddress:hover{
+    background-color: #c0392b;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .modalFormcustomer form{
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    .modalFormcustomer{
+        top: 0;
+        height: 100%;
+        padding: 10px;
+    }
+    
+    .modalFormcustomer form{
+        flex-direction: column !important;
+        max-width: 100%;
+        max-height: calc(100vh - 20px);
+    }
+    
+    .modalFormcustomer form > div{
+        padding: 40px 20px 20px 20px;
+    }
+    
+    .modalFormcustomer form > div:first-child{
+        border-right: none;
+        border-bottom: 1px solid #3a4a5f;
+    }
+    
+    .modalFormcustomer form h2{
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modalFormcustomer form > div{
+        padding: 40px 15px 15px 15px;
+    }
+    
+    .modalFormcustomer form{
+        gap: 0;
+    }
+    
+    .addressBox{
+        padding: 15px;
+    }
+}
+/* Scrollbar customizada para o formulário de clientes */
+.modalFormcustomer form::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modalFormcustomer form::-webkit-scrollbar-track {
+    background: #2d3e50;
+    border-radius: 4px;
+}
+
+.modalFormcustomer form::-webkit-scrollbar-thumb {
+    background: #3a4a5f;
+    border-radius: 4px;
+}
+
+.modalFormcustomer form::-webkit-scrollbar-thumb:hover {
+    background: #4a5a6f;
+}
+
+/* Scrollbar para cada coluna individual se necessário */
+.modalFormcustomer form > div::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modalFormcustomer form > div::-webkit-scrollbar-track {
+    background: #1e2d3d;
+    border-radius: 4px;
+}
+
+.modalFormcustomer form > div::-webkit-scrollbar-thumb {
+    background: #3a4a5f;
+    border-radius: 4px;
+}
+
+.modalFormcustomer form > div::-webkit-scrollbar-thumb:hover {
+    background: #4a5a6f;
+}

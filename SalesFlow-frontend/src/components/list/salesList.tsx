@@ -1,107 +1,99 @@
 import { useEffect, useState, useCallback } from "react"
-import type { SalesResult } from "../../types/sales"; 
+import type { SalesResult } from "../../types/sales"
 import api from "../../service/api"
-import { FaEye } from "react-icons/fa";
-import { CiTrash } from "react-icons/ci";
-import { FormSales } from "../forms/formSales";
+import { FaEye } from "react-icons/fa"
+import { CiTrash } from "react-icons/ci"
+import { FormSales } from "../forms/register/formSales"
 import Style from "./salesList.module.css"
+import { SalesFormEdit } from "../forms/edit/salesFormEdit"
+import { SearchSales } from "../search/searchSales"
+import { toast } from "react-toastify"
 
 export function SalesList() {
-  const [allSales, setAllSales] = useState<SalesResult[]>([]);
-  const [removeList, setRemoveList] = useState<number[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [allSales, setAllSales] = useState<SalesResult[]>([])
+  const [removeList, setRemoveList] = useState<number[]>([])
+  const [loading, setLoading] = useState(false)
+
+  const [saleEditing, setSaleEditing] = useState<SalesResult | null>(null)
 
   const changeRemoveList = (value: number) => {
     setRemoveList((prevList) => {
-      const exists = prevList.includes(value);
-      if (exists) {
-        return prevList.filter((i) => i !== value);
-      } else {
-        return [...prevList, value];
-      }
-    });
-  };
+      return prevList.includes(value)
+        ? prevList.filter((i) => i !== value)
+        : [...prevList, value]
+    })
+  }
 
   const getSales = useCallback(async () => {
     try {
-      setLoading(true);
-      const response = await api.get("sales/all");
-      const data = (response.data as SalesResult[]) || [];
-      setAllSales(data);
-      console.log("vendas",allSales,data)
+      setLoading(true)
+      const response = await api.get("sales/all")
+      const data = (response.data as SalesResult[]) || []
+      setAllSales(data)
     } catch (error) {
-      console.error("Erro ao buscar vendas:", error);
-      setAllSales([]);
+      console.error("Erro ao buscar vendas:", error)
+      setAllSales([])
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   const handleDeleteSelected = async () => {
-    if (removeList.length === 0) {
-      alert("Selecione pelo menos uma venda para remover");
-      return;
-    }
+    if (removeList.length === 0) return
 
     if (!confirm(`Deseja realmente remover ${removeList.length} venda(s)?`)) {
-      return;
+      return
     }
 
     try {
-      setLoading(true);
-      
+      setLoading(true)
 
       await Promise.all(
-        removeList.map((id) => api.delete(`Sales/${id}`))
-      );
-      
+        removeList.map((id) => api.delete(`Sales/delete/${id}`))
+      )
 
-      setAllSales((prevSales) => 
+      setAllSales((prevSales) =>
         prevSales.filter((sale) => !removeList.includes(sale.id))
-      );
-      
+      )
 
-      setRemoveList([]);
-      
-      alert("Vendas removidas com sucesso!");
+      setRemoveList([])
     } catch (error) {
-      console.error("Erro ao remover vendas:", error);
-      alert("Erro ao remover vendas");
+      toast.info(`${error}`);
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    getSales();
-    console.log(allSales)
-  }, [getSales]);
+    getSales()
+  }, [getSales])
 
   const formatCurrency = (value: string) => {
-    const numValue = parseFloat(value);
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(numValue);
-  };
+    const numValue = parseFloat(value)
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(numValue)
+  }
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
-  };
+    const date = new Date(dateString)
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date)
+  }
 
   return (
     <div>
       <div className="header-actions">
         <FormSales onSaleAdded={getSales} />
-        <button 
-          className="submitButton error" 
+        <SearchSales/>
+        <button
+          className="submitButton error"
           onClick={handleDeleteSelected}
           disabled={removeList.length === 0 || loading}
         >
@@ -112,42 +104,59 @@ export function SalesList() {
 
       {loading && <p>Carregando...</p>}
 
-      <div className={Style.SalesList}>
-        {allSales.length === 0 && !loading ? (
-          <p>Nenhuma venda encontrada</p>
-        ) : (
+      {allSales.length > 0 ? <div className={Style.SalesList}>
+        {
           allSales.map((i) => (
-            <div 
-              key={i.id} 
-              className={Style.cardSales}
-            >
+            <div key={i.id} className={Style.cardSales}>
               <label className="checkbox-wrapper">
-                <input 
-                  type="checkbox" 
-                  checked={removeList.includes(i.id || 0)}
-                  onChange={() => i.id && changeRemoveList(i.id)}
+                <input
+                  type="checkbox"
+                  checked={removeList.includes(i.id)}
+                  onChange={() => changeRemoveList(i.id)}
                 />
                 <span className="custom-checkbox"></span>
               </label>
 
-             <div className={Style.aditionalInfor}>
-                <p>Id: {i.id}</p>
+              <div className={Style.aditionalInfor}>
+                <p>#{i.id}</p>
                 <p>Cliente: {i.user?.name}</p>
-                <p>Produtos: {i.products?.map(p => p.name).join(', ') || 'Nenhum'}</p>
-                <p className={Style.date}>{formatDate(i.created_at)}</p>
-                <p className={Style.status}>Status: {i.status === 'pending' ? 'Pendente' : 'Concluído'}</p>
-              <p><strong>Total: {formatCurrency(`${i.total}`)}</strong></p>
+                <p className={Style.date}>
+                  {formatDate(i.created_at)}
+                </p>
+                <p
+                  className={Style.status}
+                  style={{
+                    backgroundColor: i.status === "pending" ? "#fef3c7" : "#dcfce7",
+                    color: i.status === "pending" ? "#92400e" : "#166534",
+                  }}
+                >
+                  {i.status === "pending" ? "Pendente" : "Concluído"}
+                </p>
+                <p>
+                  <strong>Total: {formatCurrency(`${i.total}`)}</strong>
+                </p>
               </div>
 
               <div className={Style.ConteinerButton}>
-                <button className="submitButton edit" >
+                <button
+                  className="submitButton edit"
+                  onClick={() => setSaleEditing(i)}
+                >
                   <FaEye />
                 </button>
               </div>
             </div>
           ))
-        )}
-      </div>
+        }
+      </div> : <p className={Style.nother}>Nenhuma venda registrada.</p>}
+
+      {saleEditing && (
+        <SalesFormEdit
+          sale={saleEditing}
+          displayModal={true}
+          onClose={() => setSaleEditing(null)}
+        />
+      )}
     </div>
-  );
+  )
 }

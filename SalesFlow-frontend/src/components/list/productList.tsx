@@ -2,11 +2,13 @@ import { useEffect, useState, useCallback } from "react";
 import type { IProducts } from "../../types/products";
 import api from "../../service/api";
 import { FaEye } from "react-icons/fa";
-import notFound from "../../../public/not_found.jpg";
-import { FormProduct } from "../forms/formProduct";
 import { CiTrash } from "react-icons/ci";
-import { FormProductEdit } from "../forms/formProductEdit";
+import notFound from "/public/not_found.jpg"
+import { FormProduct } from "../forms/register/formProduct"; 
 import Styles from "./productList.module.css";
+import { SearchProduct } from "../search/searchProducts";
+import { FormEditProduct } from "../forms/edit/formEditproduct";
+import { toast } from "react-toastify";
 
 export function ProductsList() {
   const [allProducts, setAllProducts] = useState<IProducts[]>([]);
@@ -36,7 +38,6 @@ export function ProductsList() {
 
   const handleDeleteSelected = async () => {
     if (removeList.length === 0) {
-      alert("Selecione pelo menos um produto");
       return;
     }
 
@@ -56,10 +57,9 @@ export function ProductsList() {
       );
 
       setRemoveList([]);
-      alert("Produtos removidos com sucesso!");
+      toast.success("Produto(s) removido(s) com sucesso!");
     } catch (error) {
-      console.error("Erro ao remover produtos", error);
-      alert("Erro ao remover produtos");
+      toast.error(`Erro ao remover produtos: ${error}`);
     } finally {
       setLoading(false);
     }
@@ -72,8 +72,8 @@ export function ProductsList() {
   return (
     <div>
       <div className="header-actions">
-        <FormProduct/>
-
+        <FormProduct />
+        <SearchProduct />
         <button
           className="submitButton error"
           onClick={handleDeleteSelected}
@@ -86,16 +86,7 @@ export function ProductsList() {
 
       {loading && <p>Carregando...</p>}
 
-      <div className={Styles.listProducts}>
-        {productForEdit && (
-          <FormProductEdit
-            name={productForEdit.name}
-            description={productForEdit.description}
-            price={productForEdit.price}
-            photo={productForEdit.photo}
-          />
-        )}
-
+      {allProducts.length > 0 ? <div className={Styles.listProducts}>
         {allProducts.map((i) => (
           <div key={i.id} className={Styles.cardProduct}>
             <label className="checkbox-wrapper">
@@ -107,24 +98,37 @@ export function ProductsList() {
               <span className="custom-checkbox"></span>
             </label>
 
-            <img src={i.photo || notFound} alt={i.name} />
+            <img
+              src={
+                i.image
+                  ? `${import.meta.env.VITE_API_URL}/products/image/${i.image}`
+                  : notFound
+              }
+              alt={i.name}
+            />
 
             <div className={Styles.aditionalInfor}>
-              <p>{i.name || "Nome não informado"}</p>
+              <p>{i.name}</p>
               <p>R$ {i.price},00</p>
 
-              <div>
-                <button
-                  className="submitButton edit"
-                  onClick={() => setProductForEdit(i)}
-                >
-                  <FaEye /> 
-                </button>
-              </div>
+              <button
+                className="submitButton edit"
+                onClick={() => setProductForEdit(i)}
+              >
+                <FaEye />
+              </button>
             </div>
           </div>
         ))}
-      </div>
+      </div> : <p className={Styles.nother}>Nenhum produto encontrado</p> }
+
+      {productForEdit && (
+        <FormEditProduct
+          product={productForEdit}
+          onClose={() => setProductForEdit(null)}
+          onUpdate={getProducts}
+        />
+      )}
     </div>
   );
 }

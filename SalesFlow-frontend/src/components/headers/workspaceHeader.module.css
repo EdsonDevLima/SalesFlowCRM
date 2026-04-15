@@ -5,6 +5,26 @@
     position:fixed;
     z-index: 999;
 }
+.IconNotification{
+    position: absolute;
+    z-index: 999;
+    right: 80px;
+    top: 18px;
+    width: 50px;
+    height: 50px;
+    background-color: #1c2b42;
+    border: none;
+}
+.IconNotification * {
+    width: 30px;
+    height: 30px; 
+    color: white;
+}
+.IconNotification *:hover{
+    color: yellow !important;
+    background-color: #283e5e;
+    border-radius: 50px;
+}
 
 .wrapperMenu{
     width: 50px;
