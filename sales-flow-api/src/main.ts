@@ -3,10 +3,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-
-  console.log('DATABASE_PASSWORD:', process.env.DATABASE_PASSWORD);
-  console.log('DATABASE_USERNAME:', process.env.DATABASE_USERNAME);
-  console.log('DATABASE_NAME:', process.env.DATABASE_NAME);
   
   const app = await NestFactory.create(AppModule, { bodyParser: true });
     app.enableCors({

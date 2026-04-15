@@ -16,10 +16,14 @@ export class Sale {
     @ManyToMany(() => Product, { cascade: true })
     @JoinTable()
     products: Product[]
-
+    @Column()
+    trackingCode:string
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     total: number
-
-    @Column({ type: 'enum', enum: ['canceled', 'shipped', 'pending'], default: 'pending' })
-    status: "canceled" | "shipped" | "pending"
+    @Column({
+    type: 'enum',
+    enum: ['pending', 'completed', 'cancelled', 'refunded'],
+    default: 'pending'
+    })
+    status: "pending" | "completed" | "cancelled" | "refunded"
 }

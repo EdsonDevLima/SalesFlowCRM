@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IProductDto } from 'src/database/dtos/products-dtos';
 import { Product } from 'src/database/entities/product';
 import { Repository } from 'typeorm';
 
@@ -29,14 +30,19 @@ export class ProductsService {
             throw Error(error)
         }
     }
-    async updateProduct(product: Product) {
+    async updateProduct(product: IProductDto) {
         try {
             const productExist = await this.repository.findOne({ where: { id: product.id } })
             if (productExist) {
                 await this.repository.update({ id: productExist.id }, {
-                    name: productExist.name,
-                    price: productExist.price,
-                    description: productExist.description
+                    name: product.name,
+                    price: product.price,
+                    description: product.description,
+                    status:product.status,
+                    amount:product.amount,
+                    isPromotion:product.isPromotion,
+                    category:product.category
+
                 })
                 return { sucess: true, message: "Produto atualizado" }
             } else {

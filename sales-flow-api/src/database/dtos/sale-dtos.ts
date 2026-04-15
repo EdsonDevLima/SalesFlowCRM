@@ -3,4 +3,6 @@ export interface ISaleDto {
     userId: number;
     productIds: number[];
     total: number;
+    trackingCode:string
+    status:"pending" | "completed" | "cancelled" | "refunded"
 }

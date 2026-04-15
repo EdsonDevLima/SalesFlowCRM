@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IUpdateUser } from 'src/database/dtos/user-dtos';
+import { Adress } from 'src/database/entities/adress';
 import { User } from 'src/database/entities/user';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(User) private readonly repository: Repository<User>) { }
+    constructor(@InjectRepository(User) private readonly repository: Repository<User>,@InjectRepository(Adress) private readonly addresRepository: Repository<Adress>) { }
     async createUser(User: User) {
         try {
             await this.repository.save(User)
@@ -29,23 +31,59 @@ export class UserService {
             throw Error(error)
         }
     }
-    async updateUser(User: User) {
-        try {
-            const UserExist = await this.repository.findOne({ where: { id: User.id } })
-            if (UserExist) {
-                await this.repository.update({ id: UserExist.id }, {
-                    name: UserExist.name,
-                    email: UserExist.email,
-                })
-                return { sucess: true, message: "Cliente atualizado" }
-            } else {
-                return { sucess: false, message: "Cliente não encontrado" }
-            }
+    async updateUser(id: number, data: IUpdateUser) {
+  try {
+    const user = await this.repository.findOne({
+      where: { id },
+      relations: ["adress"],
+    });
 
-        } catch (error) {
-            throw Error(error)
-        }
+    if (!user) {
+      return { sucess: false, message: "Usuario não encontrado" };
     }
+
+
+    user.name = data.name ?? user.name;
+    user.email = data.email ?? user.email;
+    user.cpf = data.cpf ?? user.cpf;
+    user.role = data.role ?? user.role;
+
+
+    if (data.password) {
+      user.password = data.password;
+    }
+
+
+    if (data.adress) {
+
+      const addr = data.adress;
+
+      if (user.adress) {
+
+        user.adress.street = addr.street;
+        user.adress.number = addr.number;
+        user.adress.city = addr.city;   
+        user.adress.state = addr.state;
+        user.adress.zipCode = addr.zipCode;
+      } else {
+
+        const newAddress = this.addresRepository.create({
+          ...addr,
+          user: user,
+        });
+
+        user.adress = newAddress;
+      }
+    }
+
+    await this.repository.save(user);
+
+    return { sucess: true, message: "Cliente atualizado com sucesso" };
+
+  } catch (error) {
+    throw Error(error);
+  }
+}
     async getAllUser() {
         try {
             const items = await this.repository.find()
@@ -57,7 +95,12 @@ export class UserService {
     }
     async getAllCustomers() {
         try {
-            const customers = await this.repository.find({ where: { role: 'customer' } });
+
+        const customers = await this.repository.find({
+        where: { role: 'customer' },
+        relations: ['adress'],
+        });
+       
             return { items: customers };
         } catch (error) {
             throw Error(error);

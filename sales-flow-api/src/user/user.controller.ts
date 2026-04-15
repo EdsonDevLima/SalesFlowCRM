@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
-import type { ICreateUser } from 'src/database/dtos/user-dtos';
+import type { ICreateUser, IUpdateUser } from 'src/database/dtos/user-dtos';
 import { User } from 'src/database/entities/user';
 import bcrypt from "bcrypt"
-import { get } from 'http';
+import { Adress } from 'src/database/entities/adress';
+
 
 @Controller('user')
 export class UserController {
@@ -13,10 +14,26 @@ export class UserController {
     async create(@Body() body: ICreateUser) {
 
         try {
+            const userExist = await this.service.getUser(body.email,null)
+            if(userExist.user){
+                 throw new HttpException(`Já existe um usuario com esse email.`, HttpStatus.BAD_REQUEST)
+            }
+            
             const newUser = new User()
             newUser.name = body.name
             newUser.email = body.email
             newUser.role = body.role
+            newUser.cpf = body.cpf || "0000000000"
+            
+            const address = body.addresses[0] || {}
+            if(address){
+            newUser.adress = new Adress()
+            newUser.adress.city = address.city
+            newUser.adress.street = address.street
+            newUser.adress.country = `Brasil`
+            newUser.adress.state = address.state
+            newUser.adress.number = address.number
+            }
 
             const salt = bcrypt.genSaltSync(10)
             newUser.password = bcrypt.hashSync(body.password, salt)
@@ -50,10 +67,30 @@ export class UserController {
     @Get('customers')
     async getAllCustomers() {
         try {
-            console.log("chamou essa request")
             return await this.service.getAllCustomers();
         } catch (error) {
             throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @Put("update/:id")
+    async update(
+    @Param("id") id: number,
+    @Body() body: IUpdateUser
+    ) {
+    try {
+        const result = await this.service.updateUser(Number(id), body);
+
+        if (!result.sucess) {
+        throw new HttpException(result.message, HttpStatus.NOT_FOUND);
+        }
+
+        return { message: result.message };
+
+    } catch (error) {
+        throw new HttpException(
+        error instanceof Error ? error.message : "Erro interno",
+        HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
     }
 }

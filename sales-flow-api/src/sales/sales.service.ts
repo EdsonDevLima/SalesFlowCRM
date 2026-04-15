@@ -42,4 +42,21 @@ async createSale(dto: ISaleDto) {
     async getSaleById(id: number) {
         return await this.saleRepository.findOne({ where: { id }, relations: ['user', 'products'] });
     }
+    async updateSale(sale:ISaleDto) {
+            try {
+                const saleExist = await this.saleRepository.findOne({ where: { id: sale.id } })
+                if (saleExist) {
+                    await this.saleRepository.update({ id: saleExist.id }, {
+                        status:sale.status,
+                        trackingCode:sale.trackingCode || ""   
+                    })
+                    return { sucess: true, message: "Pedido atualizado" }
+                } else {
+                    return { sucess: false, message: "Pedido não encontrado" }
+                }
+    
+            } catch (error) {
+                throw Error(error)
+            }
+        }
 }

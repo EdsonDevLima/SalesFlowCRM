@@ -9,6 +9,7 @@ import { User } from './database/entities/user';
 import { Sale } from './database/entities/sale';
 import { Adress } from './database/entities/adress';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { UserModule } from './user/user.module';
     ProductsModule,
     SalesModule,
     UserModule,
+    AuthModule
   ],
 })
 export class AppModule {}

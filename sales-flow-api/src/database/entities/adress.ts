@@ -5,14 +5,20 @@ import { User } from "./user";
 export class Adress {
     @PrimaryGeneratedColumn()
     id: number
-    @Column()
+    @Column({nullable:true})
     country: string
-    @Column()
+    @Column({nullable:true})
     city: string
-    @Column()
+    @Column({nullable:true})
+    street:string
+    @Column({nullable:true})
     neighborhood: string
-    @Column()
-    complement: string
-    @OneToOne(() => User, user => user.id)
-    user: User
+    @Column({nullable:true})
+    state:string
+    @Column({nullable:true})
+    number: string
+    @Column({nullable:true})
+    zipCode:string
+    @OneToOne(() => User, (user) => user.adress)
+    user: User;
 }
