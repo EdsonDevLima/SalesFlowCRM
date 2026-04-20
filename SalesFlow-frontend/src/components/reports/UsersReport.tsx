@@ -11,7 +11,7 @@ type ChartData = {
 };
 
 export function UsersReport() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [chartData, setChartData] = useState<ChartData[]>([
     { week: 'Primeira Semana', customers: 0 },
     { week: 'Segunda Semana', customers: 0 },

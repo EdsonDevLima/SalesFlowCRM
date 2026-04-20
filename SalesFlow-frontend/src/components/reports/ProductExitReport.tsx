@@ -11,7 +11,7 @@ type ChartData = {
 };
 
 export function ProductExitReport() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [chartData, setChartData] = useState<ChartData[]>([
     { week: 'Primeira Semana', sales: 0 },
     { week: 'Segunda Semana', sales: 0 },
