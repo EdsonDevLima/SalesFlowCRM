@@ -84,7 +84,7 @@ export function ProductsList() {
   return (
     <div>
       <div className="header-actions">
-        <FormProduct />
+        <FormProduct onProductCreated={getProducts} />
         <SearchProduct onChange={setSearch} value={search}/>
         <button
           className="submitButton error"

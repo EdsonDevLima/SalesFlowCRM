@@ -3,19 +3,23 @@ import type { SalesResult } from "../../../types/sales"
 import Style from "./salesFormEdit.module.css"
 import api from "../../../service/api"
 import { toast } from "react-toastify"
+import { ButtonLoading } from "../../load/ButtonLoading"
 
 export function SalesFormEdit({
   sale,
   displayModal,
-  onClose
+  onClose,
+  onUpdated
 }: {
   sale: SalesResult
   displayModal: boolean
   onClose: () => void
+  onUpdated?: () => Promise<void> | void
 }) {
 
   const [status, setStatus] = useState("")
   const [trackingCode, setTrackingCode] = useState("")
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (sale) {
@@ -28,6 +32,7 @@ export function SalesFormEdit({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
 
     try {
       await api.put(`/sales/update`, {
@@ -36,9 +41,12 @@ export function SalesFormEdit({
       })
 
       toast.success("Venda atualizada com sucesso!")
+      await onUpdated?.()
       onClose()
     } catch (error) {
       toast.error(`Erro ao atualizar venda: ${error}`)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -99,9 +107,9 @@ export function SalesFormEdit({
           />
         </label>
 
-        <input
-          type="submit"
-          value="Salvar alterações"
+        <ButtonLoading
+          loading={loading}
+          text="Salvar alterações"
           className={Style.buttonEdit}
         />
       </form>

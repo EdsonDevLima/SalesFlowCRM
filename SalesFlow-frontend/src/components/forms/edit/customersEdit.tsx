@@ -5,15 +5,18 @@ import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import api from "../../../service/api";
 import axios from "axios";
+import { ButtonLoading } from "../../load/ButtonLoading";
 
 export function CustomerFormEdit({
   Customers,
   displayModal,
-  onClose
+  onClose,
+  onUpdated
 }: {
   Customers: ICustomer;
   displayModal: boolean;
   onClose: () => void;
+  onUpdated?: () => Promise<void> | void;
 }) {
   if (!displayModal) return null;
 
@@ -27,6 +30,7 @@ export function CustomerFormEdit({
       zip: ""
     }
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (field: keyof ICustomer, value: string) => {
     setFormData((prev) => ({
@@ -47,11 +51,13 @@ export function CustomerFormEdit({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       await api.put(`/user/update/${formData.id}`, formData);
 
       toast.success("Cliente atualizado com sucesso");
+      await onUpdated?.();
       onClose();
 
     } catch (error: unknown) {
@@ -62,6 +68,8 @@ export function CustomerFormEdit({
       } else {
         toast.error("Erro desconhecido");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,11 +104,11 @@ export function CustomerFormEdit({
               required
             />
           </label>
-          <input
-          type="submit"
-          value="Salvar alterações"
-          className={Style.buttonRegister}
-        />
+          <ButtonLoading
+            loading={loading}
+            text="Salvar alterações"
+            className={Style.buttonRegister}
+          />
         </div>
 
         <div>

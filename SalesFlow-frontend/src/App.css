@@ -10,6 +10,7 @@
   font-style: normal;
   font-variation-settings:
     "wdth" 100;
+  transition: 1s;
 }
 body{
   background-color: #EFECE3;

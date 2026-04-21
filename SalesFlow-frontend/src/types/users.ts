@@ -4,3 +4,10 @@ export interface IUsersProfile{
     token:string
     id:number
 }
+
+
+export type PropsButtonLoading = {
+  loading: boolean;
+  text: string;
+  className?: string;
+};

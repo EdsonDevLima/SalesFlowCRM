@@ -82,7 +82,7 @@ export function CustomersList() {
   return (
     <div>
       <div className="header-actions">
-        <FormCustomer />
+        <FormCustomer onCustomerCreated={getCustomers} />
         <SearchCustomers value={search} onChange={setSearch} />
         <button
           className="submitButton error"
@@ -130,6 +130,7 @@ export function CustomersList() {
                 Customers={customerEditing}
                 displayModal={true}
                 onClose={() => setCustomerEditing(null)}
+                onUpdated={getCustomers}
               />
             )}
     </div>

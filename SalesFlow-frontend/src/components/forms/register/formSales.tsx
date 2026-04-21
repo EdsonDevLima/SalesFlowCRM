@@ -4,16 +4,18 @@ import { IoClose } from "react-icons/io5";
 import api from "../../../service/api"; 
 import type { ICustomer } from "../../../types/customers";
 import type { IProducts } from "../../../types/products"; 
+import { ButtonLoading } from "../../load/ButtonLoading";
 
 
 interface FormSalesProps {
-  onSaleAdded: () => Promise<void>;
+  onSaleAdded: () => Promise<void> | void;
 }
 
 export function FormSales({ onSaleAdded }: FormSalesProps) {
   const [allCustomers, setAllCustomers] = useState<ICustomer[]>([]);
   const [allProducts, setAllProducts] = useState<IProducts[]>([]);
   const [displayForm, setDisplayForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -83,6 +85,7 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     
     try {
       const ids = listProducts.map(({id})=>id)
@@ -104,12 +107,14 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
       await onSaleAdded();
     } catch (error) {
       console.error("Erro ao cadastrar venda:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={Style.conteinerForm}>
-      <button className="submitButton success" onClick={handleForm}>
+      <button type="button" className="submitButton success" onClick={handleForm}>
         Cadastrar
       </button>
 
@@ -162,6 +167,7 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
                 type="number"
                 value={productQty}
                 onChange={(e) => setProductQty(Number(e.target.value))}
+                min="1"
               />
             </label>
 
@@ -194,7 +200,7 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
 
             <label>
               Endereço:
-              <textarea value={formatAddress(selectedCustomer)} />
+              <textarea value={formatAddress(selectedCustomer)} readOnly />
             </label>
 
             <label>
@@ -202,7 +208,7 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
               <input type="text" disabled value={`R$ ${total.toFixed(2)}`} />
             </label>
 
-            <input type="submit" value="Cadastrar" className={Style.buttonRegister} />
+            <ButtonLoading loading={loading} text="Cadastrar" className={Style.buttonRegister} />
           </form>
         </div>
       )}

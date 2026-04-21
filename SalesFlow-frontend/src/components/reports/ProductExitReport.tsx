@@ -1,4 +1,3 @@
-// ProductExitReport.tsx - Atualizado
 import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import api from '../../service/api';

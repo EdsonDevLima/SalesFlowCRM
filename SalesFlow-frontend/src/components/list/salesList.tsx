@@ -159,6 +159,7 @@ export function SalesList() {
           sale={saleEditing}
           displayModal={true}
           onClose={() => setSaleEditing(null)}
+          onUpdated={getSales}
         />
       )}
     </div>

@@ -5,6 +5,7 @@ import api from "../../../service/api";
 import type { IAddress } from "../../../types/customers";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { ButtonLoading } from "../../load/ButtonLoading";
 
 type CreateCustomerDTO = {
   name: string;
@@ -16,13 +17,18 @@ type CreateCustomerDTO = {
   addresses?: IAddress[];
 };
 
-export function FormCustomer() {
+interface FormCustomerProps {
+  onCustomerCreated?: () => Promise<void> | void;
+}
+
+export function FormCustomer({ onCustomerCreated }: FormCustomerProps) {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [cpf, setCpf] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [displayForm, setDisplayForm] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const [addresses, setAddresses] = useState<IAddress[]>([
     { street: "", number: "", city: "", state: "", zip: "" }
@@ -85,10 +91,12 @@ export function FormCustomer() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     // ✔ validação de senha
     if (password !== confirmPassword) {
       toast.error("As senhas não coincidem");
+      setLoading(false);
       return;
     }
 
@@ -109,9 +117,18 @@ export function FormCustomer() {
       }
 
       await api.post("/user/create", body);
+      setName("");
+      setEmail("");
+      setCpf("");
+      setPassword("");
+      setConfirmPassword("");
+      setAddresses([
+        { street: "", number: "", city: "", state: "", zip: "" }
+      ]);
 
       setDisplayForm(false);
       toast.success("Novo cliente cadastrado.");
+      await onCustomerCreated?.();
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data?.message || "Erro na requisição");
@@ -120,12 +137,14 @@ export function FormCustomer() {
       } else {
         toast.error("Erro desconhecido");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className={Style.conteinerForm}>
-      <button className="submitButton success" onClick={handleForm}>
+      <button type="button" className="submitButton success" onClick={handleForm}>
         Cadastrar
       </button>
 
@@ -191,9 +210,9 @@ export function FormCustomer() {
                 />
               </label>
 
-              <input
-                type="submit"
-                value="Cadastrar"
+              <ButtonLoading
+                loading={loading}
+                text="Cadastrar"
                 className={Style.buttonRegister}
               />
             </div>

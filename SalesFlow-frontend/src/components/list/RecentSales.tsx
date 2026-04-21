@@ -158,6 +158,7 @@ export function RecentSales({ filters }: RecentSalesProps) {
           sale={saleEditing}
           displayModal={true}
           onClose={() => setSaleEditing(null)}
+          onUpdated={getRecentSales}
         />
       )}
     </>

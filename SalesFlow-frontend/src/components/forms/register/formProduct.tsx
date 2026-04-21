@@ -3,19 +3,25 @@ import Style from "./formProduct.module.css"
 import { IoClose } from "react-icons/io5";
 import { apiMultiPart } from "../../../service/api";
 import { toast } from "react-toastify";
+import { ButtonLoading } from "../../load/ButtonLoading";
 
-export function FormProduct() {
+interface FormProductProps {
+  onProductCreated?: () => Promise<void> | void;
+}
+
+export function FormProduct({ onProductCreated }: FormProductProps) {
   const [price, setPrice] = useState<string>("R$ 0,00");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [status,setStatus] = useState<string>("")
-  const [category,setCategory] = useState<string>("")
+  const [status,setStatus] = useState<string>("Usado")
+  const [category,setCategory] = useState<string>("Eletronicos")
   const [amount,setAmount] = useState<number>(0)
   const [isOnPromotion,setIsOnPromotion] = useState<boolean>(false)
 
   
   const [image,setImage] = useState<File | null>(null)
   const [displayForm,setDisplayForm] = useState<boolean>(false)
+  const [loading, setLoading] = useState(false)
   const handleForm = ()=>{
     if(displayForm){
         setDisplayForm(false)
@@ -53,9 +59,22 @@ export function FormProduct() {
     );
   };
 
+  const resetForm = () => {
+    setPrice("R$ 0,00");
+    setName("");
+    setDescription("");
+    setStatus("Usado");
+    setCategory("Eletronicos");
+    setAmount(0);
+    setIsOnPromotion(false);
+    setImage(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
+  setLoading(true);
 
+  try {
   const priceValue = getPriceValue();
 
   const formData = new FormData();
@@ -71,19 +90,23 @@ export function FormProduct() {
     formData.append("image", image); 
   }
 
-  try {
     await apiMultiPart.post("/products/create", formData);
+    resetForm();
     setDisplayForm(false)
     toast.success("Produto criados com sucesso")
+    await onProductCreated?.()
   } catch (error) {
     console.error(error);
+    toast.error("Nao foi possivel cadastrar o produto.");
+  } finally {
+    setLoading(false);
   }
 };
 
   return (
 
     <div className={Style.conteinerForm}>
-    <button className="submitButton success" onClick={()=>handleForm()}>Cadastrar</button>
+    <button type="button" className="submitButton success" onClick={()=>handleForm()}>Cadastrar</button>
     {displayForm && <div onClick={()=>handleForm()} className={Style.modalFormProduct}>
       <span className={Style.closeFormProduct} onClick={()=>handleForm()}>
         <IoClose />
@@ -144,9 +167,10 @@ export function FormProduct() {
           Quantidade:
           <input 
           value={amount}
-          onChange={(e)=>setAmount(parseInt(e.target.value))}
+          onChange={(e)=>setAmount(Number(e.target.value) || 0)}
             type="number" 
             placeholder="00"
+            min="0"
             required
           />
         </label>
@@ -156,26 +180,26 @@ export function FormProduct() {
           <input onChange={()=>setIsOnPromotion(!isOnPromotion)} type="checkbox" />
         </label>
 
-        <label>
+        <div>
           <label htmlFor="imageUpload" className={Style.customFileButton}>
-    Upload de imagem
-  </label>
+            Upload de imagem
+          </label>
 
-  <input
-    id="imageUpload"
-    type="file"
-    accept="image/*"
-    className={Style.fileInput}
-    onChange={(e) => {
-      if (e.target.files && e.target.files[0]) {
-        setImage(e.target.files[0]);
-      }
-    }}
-    required
-  />
-        </label>
+          <input
+            id="imageUpload"
+            type="file"
+            accept="image/*"
+            className={Style.fileInput}
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setImage(e.target.files[0]);
+              }
+            }}
+            required
+          />
+        </div>
         
-        <input type="submit" value="Cadastrar" className={Style.buttonRegister} />
+        <ButtonLoading loading={loading} text="Cadastrar" className={Style.buttonRegister} />
         </div>
       </form>
     </div>}</div>

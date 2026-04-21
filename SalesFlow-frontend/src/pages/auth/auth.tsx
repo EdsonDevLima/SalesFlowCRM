@@ -1,8 +1,9 @@
-import { useContext, useState, type FormEvent } from "react"
+import { useContext, useEffect, useState, type FormEvent } from "react"
 import Style from "./auth.module.css"
 import { ContextUserApp } from "../../context/contextApp"
 import { toast } from "react-toastify"
 import { HeaderAuthenticate } from "../../components/headers/authenticateHeader"
+import { ButtonLoading } from "../../components/load/ButtonLoading"
 
 export function Auth() {
   const [isLogin, setIsLogin] = useState<boolean>(true)
@@ -10,32 +11,42 @@ export function Auth() {
   const [password, setPassword] = useState<string>("")
   const [confirmPassword, setConfirmPassword] = useState<string>("")
   const [name, setName] = useState<string>("")
+  const [loading, setLoading] = useState(false);
   
-  const { login, register } = useContext(ContextUserApp)
-  
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const { login, register,verifyToken } = useContext(ContextUserApp)
+  useEffect(()=>{
+    const redirect = async()=>await verifyToken()
 
+    redirect()
+    
+  },[])
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  setLoading(true);
+
+  try {
     if (isLogin) {
-      // Login
       if (!email || !password) {
-        toast.error("Preencha todos os campos")
-        return
+        toast.error("Preencha todos os campos");
+        return;
       }
-      await login(email, password)
+      await login(email, password);
     } else {
-      // Cadastro
       if (!name || !email || !password || !confirmPassword) {
-        toast.error("Preencha todos os campos")
-        return
+        toast.error("Preencha todos os campos");
+        return;
       }
       if (password !== confirmPassword) {
-        toast.error("As senhas não coincidem")
-        return
+        toast.error("As senhas não coincidem");
+        return;
       }
-      await register(name, email, password,confirmPassword)
+      await register(name, email, password, confirmPassword);
     }
+  } finally {
+    setLoading(false);
   }
+};
 
   return (
     <section className={Style.AuthSection}>
@@ -94,7 +105,10 @@ export function Auth() {
           {isLogin ? "Ainda não possuo conta" : "Já possuo conta"}
         </span>
 
-        <input type="submit" value={isLogin ? "Login" : "Cadastrar-se"} />
+        <ButtonLoading 
+        loading={loading} 
+        text={isLogin ? "Login" : "Cadastrar-se"} 
+        />
       </form>
     </section>
   )

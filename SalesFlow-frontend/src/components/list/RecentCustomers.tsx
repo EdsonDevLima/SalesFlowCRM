@@ -86,6 +86,7 @@ export function RecentCustomers() {
           Customers={customerEditing}
           displayModal={true}
           onClose={() => setCustomerEditing(null)}
+          onUpdated={getRecentCustomers}
         />
       )}
     </>

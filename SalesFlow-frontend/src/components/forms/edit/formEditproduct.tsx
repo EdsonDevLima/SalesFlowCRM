@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Style from "./formEditProduct.module.css"
 import { IoClose } from "react-icons/io5";
 import api from "../../../service/api"; 
+import { ButtonLoading } from "../../load/ButtonLoading";
 
 interface Product {
   id: string;
@@ -29,6 +30,7 @@ export function FormEditProduct({ product, onClose, onUpdate }: FormEditProductP
   const [category, setCategory] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [isOnPromotion, setIsOnPromotion] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
 useEffect(() => {
   setName(product.name);
@@ -75,6 +77,7 @@ useEffect(() => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const priceValue = getPriceValue();
 
@@ -96,6 +99,8 @@ useEffect(() => {
       onClose();
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -176,7 +181,7 @@ useEffect(() => {
               type="checkbox" 
             />
           </label>         
-        <input type="submit" value="Salvar alterações" className={Style.buttonRegister} />
+        <ButtonLoading loading={loading} text="Salvar alterações" className={Style.buttonRegister} />
         </div>
       </form>
     </div>
