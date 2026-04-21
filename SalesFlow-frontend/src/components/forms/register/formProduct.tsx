@@ -10,6 +10,19 @@ interface FormProductProps {
 }
 
 export function FormProduct({ onProductCreated }: FormProductProps) {
+  const acceptedImageTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/bmp",
+    "image/svg+xml",
+    "image/tiff",
+    "image/x-icon",
+    "image/avif",
+    "image/heic",
+    "image/heif"
+  ];
+
   const [price, setPrice] = useState<string>("R$ 0,00");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -68,6 +81,35 @@ export function FormProduct({ onProductCreated }: FormProductProps) {
     setAmount(0);
     setIsOnPromotion(false);
     setImage(null);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+
+    if (!selectedFile) {
+      setImage(null);
+      return;
+    }
+
+    const fileExtension = selectedFile.name.split(".").pop()?.toLowerCase();
+    const isWebp =
+      selectedFile.type === "image/webp" || fileExtension === "webp";
+
+    if (isWebp) {
+      toast.error("Imagens em formato WEBP nao sao permitidas.");
+      e.target.value = "";
+      setImage(null);
+      return;
+    }
+
+    if (!acceptedImageTypes.includes(selectedFile.type)) {
+      toast.error("Selecione uma imagem valida.");
+      e.target.value = "";
+      setImage(null);
+      return;
+    }
+
+    setImage(selectedFile);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -188,13 +230,9 @@ export function FormProduct({ onProductCreated }: FormProductProps) {
           <input
             id="imageUpload"
             type="file"
-            accept="image/*"
+            accept=".jpg,.jpeg,.png,.gif,.bmp,.svg,.tif,.tiff,.ico,.avif,.heic,.heif"
             className={Style.fileInput}
-            onChange={(e) => {
-              if (e.target.files && e.target.files[0]) {
-                setImage(e.target.files[0]);
-              }
-            }}
+            onChange={handleImageChange}
             required
           />
         </div>

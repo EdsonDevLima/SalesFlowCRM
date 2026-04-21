@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, type FormEvent } from "react"
+import { useContext, useState, type FormEvent } from "react"
 import Style from "./auth.module.css"
 import { ContextUserApp } from "../../context/contextApp"
 import { toast } from "react-toastify"
@@ -13,13 +13,7 @@ export function Auth() {
   const [name, setName] = useState<string>("")
   const [loading, setLoading] = useState(false);
   
-  const { login, register,verifyToken } = useContext(ContextUserApp)
-  useEffect(()=>{
-    const redirect = async()=>await verifyToken()
-
-    redirect()
-    
-  },[])
+  const { login, register } = useContext(ContextUserApp)
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 

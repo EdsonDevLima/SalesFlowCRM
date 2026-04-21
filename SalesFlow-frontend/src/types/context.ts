@@ -7,6 +7,6 @@ export type ContextUserAppType = {
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string,confirmPassword:string) => Promise<void>;
   logout: () => void;
-  verifyToken:()=> Promise<boolean | undefined>;
+  verifyToken:()=> Promise<boolean>;
   isAuthenticated: boolean;
 };

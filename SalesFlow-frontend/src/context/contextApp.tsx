@@ -55,27 +55,26 @@ export function ContextUserAppProvider({ children }: { children: ReactNode }) {
 
   const verifyToken =async ()=>{
     try {
-
       const token = localStorage.getItem("token");
 
-      if(token){
-        const response = await api.post("auth/verify-token", {
-          token
+      if (!token) {
+        setUser(null);
+        return false;
+      }
+
+      const response = await api.post("auth/verify-token", {
+        token
       });
-      if(!response){
-        navigate("/")
-        localStorage.removeItem("token")
-      }else{
-        return true
+
+      if (response?.data?.user) {
+        setUser(response.data.user);
       }
 
-      }else{
-        navigate("/")
-      }
-
+      return true;
     } catch (error) {
-      navigate("/")
-      toast.error("Erro no cadastro: " + error);
+      localStorage.removeItem("token");
+      setUser(null);
+      return false;
     }
   }
 

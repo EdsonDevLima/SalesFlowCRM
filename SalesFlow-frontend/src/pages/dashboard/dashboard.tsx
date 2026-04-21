@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { HeaderWorkspace } from "../../components/headers/workspaceHeader";
 import { ProductEntryReport } from "../../components/reports/ProductEntryReport";
 import { ProductExitReport } from "../../components/reports/ProductExitReport";
@@ -8,13 +8,8 @@ import { RecentSales } from "../../components/list/RecentSales";
 import { SalesFilter, type FilterOptions } from "../../components/filtrers/Salesfilter"; 
 
 import Styles from "./dashboard.module.css"
-import { ContextUserApp } from "../../context/contextApp";
 
 export function Dashboard(){
-        const context = useContext(ContextUserApp)
-        useEffect(()=>{
-            context.verifyToken()
-        },[])
     const [salesFilters, setSalesFilters] = useState<FilterOptions>({
         period: "all",
         status: "all"
