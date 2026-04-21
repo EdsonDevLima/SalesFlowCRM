@@ -4,6 +4,11 @@
     background: #1c2b42;
     position:fixed;
     z-index: 999;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
 }
 .IconNotification{
     position: absolute;
@@ -45,4 +50,11 @@
     height: 100vh;
     position: absolute;
     top: 80px;
+}
+
+@media (max-width: 768px) {
+    .workspaceHeader{
+        min-height: 72px;
+        padding: 0 12px;
+    }
 }

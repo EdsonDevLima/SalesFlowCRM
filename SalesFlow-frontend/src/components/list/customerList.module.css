@@ -1,5 +1,5 @@
 .customerCard {
-  width: 260px;
+  width: min(100%, 260px);
   min-height: 160px;
   background: #ffffff;
   border-radius: 12px;
@@ -64,7 +64,7 @@
 
 /* lista */
 .list {
-  padding: 120px 40px 40px;
+  padding: 120px 24px 40px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -80,4 +80,15 @@
   justify-content: center;
   font-size: 18px;
   color: #666;
+}
+
+@media (max-width: 768px) {
+  .list {
+    padding: 160px 12px 24px;
+    gap: 12px;
+  }
+
+  .customerCard {
+    width: min(100%, 360px);
+  }
 }

@@ -5,17 +5,24 @@
     position:fixed;
     z-index: 999;
     top: 0px;
-    height: 100px;
+    height: 88px;
     display: flex;
     align-items: center;
-    padding: 5px;
+    padding: 8px 16px;
     
 }
 .authenticateHeader img{
-    width: 80px;
+    width: clamp(56px, 12vw, 80px);
     background-color: white;
     border-radius: 100%;
     padding: 5px;
+}
+
+@media (max-width: 768px) {
+    .authenticateHeader{
+        height: 76px;
+        padding: 8px 12px;
+    }
 }
 
 .IconNotification{

@@ -179,32 +179,46 @@
     .modalFormcustomer{
         top: 0;
         height: 100%;
-        padding: 10px;
+        padding: 8px;
+        align-items: flex-start;
     }
     
     .modalFormcustomer form{
         flex-direction: column !important;
         max-width: 100%;
-        max-height: calc(100vh - 20px);
+        max-height: calc(100vh - 16px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        border-radius: 14px;
     }
     
     .modalFormcustomer form > div{
-        padding: 40px 20px 20px 20px;
+        padding: 18px 18px 18px 18px;
+        min-width: 100% !important;
     }
     
     .modalFormcustomer form > div:first-child{
         border-right: none;
         border-bottom: 1px solid #3a4a5f;
+        padding-top: 52px;
     }
     
     .modalFormcustomer form h2{
+        font-size: 20px;
+    }
+
+    .closeFormcustomer{
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
         font-size: 20px;
     }
 }
 
 @media (max-width: 480px) {
     .modalFormcustomer form > div{
-        padding: 40px 15px 15px 15px;
+        padding: 16px 14px;
     }
     
     .modalFormcustomer form{

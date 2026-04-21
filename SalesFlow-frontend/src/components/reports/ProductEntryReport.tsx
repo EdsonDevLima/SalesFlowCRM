@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import type { IProducts } from '../../types/products';
 import api from '../../service/api';
 import Styles from './Reports.module.css';
@@ -88,17 +88,22 @@ export function ProductEntryReport() {
       </h3>
       
       <div className={`${Styles.chartWrapper} ${isOpen ? Styles.chartOpen : ''}`}>
-        <BarChart width={350} height={350} data={chartData}>
-          <XAxis dataKey="week" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar
-            dataKey="entry"
-            name="Produtos que entraram na semana"
-            fill="#4CAF50"
-          />
-        </BarChart>
+        <div className={Styles.chartInner}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={chartData}>
+              <XAxis dataKey="week" tick={{ fontSize: 12 }} />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Legend wrapperStyle={{ fontSize: "12px" }} />
+              <Bar
+                dataKey="entry"
+                name="Produtos que entraram na semana"
+                fill="#4CAF50"
+                radius={[6, 6, 0, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

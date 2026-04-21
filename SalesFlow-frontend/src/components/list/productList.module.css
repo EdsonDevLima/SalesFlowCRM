@@ -1,5 +1,5 @@
 .cardProduct {
-  width: 260px;
+  width: min(100%, 260px);
   background: #ffffff;
   border-radius: 12px;
   padding: 16px;
@@ -57,12 +57,12 @@
 
 
 .listProducts {
-  padding: 140px 80px 40px;
+  padding: 140px 24px 40px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
-  gap: 5px;
+  gap: 16px;
 }
 
 
@@ -74,4 +74,15 @@
   justify-content: center;
   font-size: 18px;
   color: #666;
+}
+
+@media (max-width: 768px) {
+  .listProducts {
+    padding: 160px 12px 24px;
+    gap: 12px;
+  }
+
+  .cardProduct {
+    width: min(100%, 360px);
+  }
 }

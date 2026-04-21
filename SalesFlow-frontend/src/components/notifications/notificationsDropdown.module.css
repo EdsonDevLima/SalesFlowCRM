@@ -29,9 +29,9 @@
   right: 0;
   top: 35px;
 
-  width: 300px;
+  width: min(300px, calc(100vw - 24px));
   max-height: 350px;
-  min-height: 350px;
+  min-height: 250px;
   overflow-y: auto;
 
   background: #ffffff;
@@ -42,6 +42,19 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    top: 24px;
+    right: 52px;
+  }
+
+  .dropdown {
+    right: -40px;
+    width: min(320px, calc(100vw - 20px));
+    max-height: 60vh;
+  }
 }
 
 .notificationItem {

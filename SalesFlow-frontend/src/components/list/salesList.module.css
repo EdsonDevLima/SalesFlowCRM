@@ -1,5 +1,5 @@
 .cardSales {
-  width: 280px;
+  width: min(100%, 280px);
   min-height: 200px;
   background: #ffffff;
   border-radius: 12px;
@@ -94,7 +94,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 140px 80px 40px; 
+  padding: 140px 24px 40px; 
 }
 
 /* vazio */
@@ -106,4 +106,16 @@
   align-items: center;
   font-size: 18px;
   color: #666;
+}
+
+@media (max-width: 768px) {
+  .SalesList {
+    padding: 160px 12px 24px;
+    gap: 12px;
+  }
+
+  .cardSales {
+    width: 100%;
+    min-height: 180px;
+  }
 }

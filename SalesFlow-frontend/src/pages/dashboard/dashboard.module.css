@@ -12,6 +12,8 @@
     min-width: 20%;
     background-color: white;
     max-height: 400px;
+    margin-top: 30px;
+    overflow: auto;
 }
 .conteinerNotification h2{
     text-align: center;
@@ -20,14 +22,32 @@
     border: solid 1px #cccccc91;
 }
 .conteinerListDashboard{
-    overflow-y: scroll;
+    overflow: scroll;
     width: 100%;
     min-height: 350px;
     position: relative;
 }
+.conteinerListDashboard h2{
+    position: sticky;
+}
 .conteinerReport{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .sectionReports{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .conteinerNotification{
+        width: 280px;
+    }
+
+    .conteinerReport{
+        padding: 0 10px 20px;
+    }
 }
