@@ -10,6 +10,7 @@ import { SearchProduct } from "../search/searchProducts";
 import { FormEditProduct } from "../forms/edit/formEditproduct";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { ListLoading } from "../load/ListLoading";
 
 export function ProductsList() {
   const [allProducts, setAllProducts] = useState<IProducts[]>([]);
@@ -96,9 +97,7 @@ export function ProductsList() {
         </button>
       </div>
 
-      {loading && <p>Carregando...</p>}
-
-      {filteredCustomers.length > 0 ? <div className={Styles.listProducts}>
+      {loading ? <ListLoading text="Carregando produtos..." /> : filteredCustomers.length > 0 ? <div className={Styles.listProducts}>
         {filteredCustomers.map((i) => (
           <div key={i.id} className={Styles.cardProduct}>
             <label className="checkbox-wrapper">

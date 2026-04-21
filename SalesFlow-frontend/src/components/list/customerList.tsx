@@ -9,6 +9,7 @@ import { CustomerFormEdit } from "../forms/edit/customersEdit";
 import { SearchCustomers } from "../search/searchCustomers";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { ListLoading } from "../load/ListLoading";
 
 export function CustomersList() {
   const [allCustomers, setAllCustomers] = useState<ICustomer[]>([]);
@@ -94,9 +95,7 @@ export function CustomersList() {
         </button>
       </div>
 
-      {loading && <p>Carregando...</p>}
-
-     { filteredCustomers.length > 0  ? <div className="list">
+      {loading ? <ListLoading text="Carregando clientes..." /> : filteredCustomers.length > 0  ? <div className="list">
         {filteredCustomers.map((i) => (
           <div key={i.id} className={`card-list ${Style.customerCard}`}>
             <label className={Style.checkboxWrapper + ` checkbox-wrapper`}>

@@ -60,7 +60,9 @@
   padding: 140px 80px 40px;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-around;
+  gap: 5px;
 }
 
 

@@ -4,6 +4,7 @@ import api from "../../service/api"
 import { FaEye } from "react-icons/fa"
 import { CustomerFormEdit } from "../forms/edit/customersEdit"
 import Styles from "./recentCustomers.module.css"
+import { ListLoading } from "../load/ListLoading"
 
 export function RecentCustomers() {
   const [recentCustomers, setRecentCustomers] = useState<ICustomer[]>([])
@@ -51,7 +52,7 @@ export function RecentCustomers() {
   }
 
   if (loading) {
-    return <p>Carregando...</p>
+    return <ListLoading text="Carregando clientes..." />
   }
 
   if (recentCustomers.length === 0) {

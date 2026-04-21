@@ -8,6 +8,7 @@ import Style from "./salesList.module.css"
 import { SalesFormEdit } from "../forms/edit/salesFormEdit"
 import { SearchSales } from "../search/searchSales"
 import { toast } from "react-toastify"
+import { ListLoading } from "../load/ListLoading"
 
 export function SalesList() {
   const [allSales, setAllSales] = useState<SalesResult[]>([])
@@ -106,9 +107,7 @@ export function SalesList() {
         </button>
       </div>
 
-      {loading && <p>Carregando...</p>}
-
-      {allSales.length > 0 ? <div className={Style.SalesList}>
+      {loading ? <ListLoading text="Carregando vendas..." /> : allSales.length > 0 ? <div className={Style.SalesList}>
         {
           filteredSales.map((i) => (
             <div key={i.id} className={Style.cardSales}>

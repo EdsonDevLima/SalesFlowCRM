@@ -4,6 +4,7 @@ import api from "../../service/api"
 import { FaEye } from "react-icons/fa"
 import { SalesFormEdit } from "../forms/edit/salesFormEdit"
 import Styles from "./recentSales.module.css"
+import { ListLoading } from "../load/ListLoading"
 
 interface RecentSalesProps {
   filters?: {
@@ -110,7 +111,7 @@ export function RecentSales({ filters }: RecentSalesProps) {
   }
 
   if (loading) {
-    return <p>Carregando...</p>
+    return <ListLoading text="Carregando vendas..." />
   }
 
   if (recentSales.length === 0) {
