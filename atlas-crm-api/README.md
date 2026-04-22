@@ -13,9 +13,6 @@ npm run build
 npm run start:prod
 npm run lint
 npm run format
-npm run test
-npm run test:e2e
-npm run test:cov
 ```
 
 ## Variáveis de ambiente

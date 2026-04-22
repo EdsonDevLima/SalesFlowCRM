@@ -39,7 +39,6 @@ O projeto cobre autenticação, dashboard, produtos, clientes, vendas, notifica�
 - JWT com `@nestjs/jwt` `11.0.1`
 - Bcrypt `6.0.0`
 - TypeScript `5.7.3`
-- Jest `30.0.0`
 - ESLint `9.18.0`
 - Prettier `3.4.2`
 
@@ -199,24 +198,6 @@ npm run format
 ```
 
 Formata arquivos `src` e `test` com Prettier.
-
-```bash
-npm run test
-```
-
-Roda os testes unitários.
-
-```bash
-npm run test:watch
-```
-
-Roda os testes em modo observação.
-
-```bash
-npm run test:cov
-```
-
-Gera cobertura de testes.
 
 ```bash
 npm run test:e2e
