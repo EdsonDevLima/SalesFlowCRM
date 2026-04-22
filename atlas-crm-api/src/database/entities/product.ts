@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, CreateDateColumn, JoinTable } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, CreateDateColumn } from "typeorm";
 import { Sale } from "./sale"; 
 
 @Entity()
@@ -29,7 +29,6 @@ export class Product {
     isPromotion: boolean
 
     @ManyToMany(() => Sale, sale => sale.products)
-    @JoinTable()
     sales: Sale[]
 
     @CreateDateColumn()

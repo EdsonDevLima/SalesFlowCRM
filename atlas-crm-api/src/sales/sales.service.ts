@@ -30,9 +30,10 @@ async createSale(dto: ISaleDto) {
         sale.user = user;
         sale.products = products;
         sale.total = dto.total;
+        sale.status = dto.status ?? 'pending';
+        sale.trackingCode = dto.trackingCode || '';
 
-        await this.saleRepository.save(sale);
-        return sale;
+        return await this.saleRepository.save(sale);
     }
 
     async getAllSales() {
