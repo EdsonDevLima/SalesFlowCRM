@@ -2,6 +2,7 @@ import React, {  useEffect, useState } from "react";
 import Style from "./formSales.module.css";
 import { IoClose } from "react-icons/io5";
 import api from "../../../service/api"; 
+import { apiMultiPart } from "../../../service/api";
 import type { ICustomer } from "../../../types/customers";
 import type { IProducts } from "../../../types/products"; 
 import { ButtonLoading } from "../../load/ButtonLoading";
@@ -72,8 +73,19 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
 
   const addProductToList = () => {
     if (!selectedProduct || productQty <= 0) return;
-    const product = allProducts.find((p) => p.name === selectedProduct);
+    const product = allProducts.find((p) => String(p.id) === selectedProduct);
     if (!product) return;
+
+    const quantityAlreadyAdded = listProducts
+      .filter((item) => item.id === product.id)
+      .reduce((sum, item) => sum + item.quantity, 0);
+
+    const nextQuantity = quantityAlreadyAdded + productQty;
+
+    if (nextQuantity > product.amount) {
+      toast.error(`Estoque insuficiente para ${product.name}. Disponivel: ${product.amount}.`);
+      return;
+    }
 
     setListProducts((prev) => [
       ...prev,
@@ -104,6 +116,27 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
     
     try {
       const ids = listProducts.map(({id})=>id)
+      const productAmountById = listProducts.reduce<Record<number, number>>((acc, item) => {
+        acc[item.id] = (acc[item.id] || 0) + item.quantity;
+        return acc;
+      }, {});
+
+      const productsToUpdate = Object.entries(productAmountById).map(([id, quantity]) => {
+        const product = allProducts.find((item) => item.id === Number(id));
+
+        if (!product) {
+          throw new Error("Produto do pedido nao encontrado para atualizacao de estoque.");
+        }
+
+        const updatedAmount = product.amount - quantity;
+
+        if (updatedAmount < 0) {
+          throw new Error(`Estoque insuficiente para ${product.name}.`);
+        }
+
+        return { product, updatedAmount };
+      });
+
       const body = {
         userId: selectedCustomer,
         productIds: ids, 
@@ -111,6 +144,22 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
       };
 
       await api.post("/sales/create", body);
+
+      await Promise.all(
+        productsToUpdate.map(async ({ product, updatedAmount }) => {
+          const formData = new FormData();
+          formData.append("id", String(product.id));
+          formData.append("name", product.name);
+          formData.append("price", String(product.price));
+          formData.append("description", product.description);
+          formData.append("category", product.category);
+          formData.append("status", product.status);
+          formData.append("amount", String(updatedAmount));
+          formData.append("isOnPromotion", String(product.isOnPromotion));
+
+          await apiMultiPart.put("/products/update", formData);
+        })
+      );
 
       setListProducts([]);
       setSelectedCustomer("");
@@ -120,6 +169,7 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
       setDisplayForm(false);
       toast.success("Pedido criado com sucesso.");
 
+      await getProducts();
       await onSaleAdded();
     } catch (error: unknown) {
       console.error("Erro ao cadastrar venda:", error);
@@ -179,8 +229,8 @@ export function FormSales({ onSaleAdded }: FormSalesProps) {
                   Selecione o produto
                 </option>
                 {allProducts.map((p) => (
-                  <option key={p.id} value={p.name}>
-                    {p.name}
+                  <option key={p.id} value={p.id} disabled={p.amount <= 0}>
+                    {p.name} - estoque: {p.amount}
                   </option>
                 ))}
               </select>
