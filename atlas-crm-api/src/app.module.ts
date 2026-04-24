@@ -22,7 +22,6 @@ import { Adress } from './database/entities/adress';
 
 import { PermissionsMiddleware } from './shared/middleware/permisions.middleware'; 
 import { AuthMiddleware } from './shared/middleware/auth.middleware';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
