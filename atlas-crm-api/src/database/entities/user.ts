@@ -15,7 +15,7 @@ export class User {
     email: string
     @Column()
     password: string
-    @Column('simple-array')
+    @Column('simple-array', { default: '' })
     permisions:string[]
     @Column()
     role: string
