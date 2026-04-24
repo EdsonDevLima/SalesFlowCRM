@@ -7,7 +7,7 @@ const api = axios.create({
     headers:{
         "Content-Type": "application/json",
         'api-key':import.meta.env.VITE_SERVER_API_KEY,
-        "authorization":token
+        "authorization":`Bearer ${token}`
     }
     
 })
@@ -16,7 +16,7 @@ export const apiMultiPart = axios.create({
     headers:{
         'Content-Type': 'multipart/form-data',
         'api-key':import.meta.env.VITE_SERVER_API_KEY,
-        "authorization":token
+        "authorization":`Bearer ${token}`
     }
     
 })
