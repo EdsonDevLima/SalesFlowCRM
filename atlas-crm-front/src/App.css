@@ -269,6 +269,7 @@ border: none;
   .list {
     gap: 12px;
     padding-top: 90px;
+    padding-left:10px;
   }
 
   .card-list {
