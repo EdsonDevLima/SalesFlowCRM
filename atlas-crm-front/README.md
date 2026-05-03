@@ -2,6 +2,20 @@
 
 Aplicação frontend do Atlas CRM construída com React, TypeScript e Vite.
 
+## Instalador
+
+O frontend faz parte do monólito e deve ser instalado pela raiz do projeto:
+
+```bash
+./install.sh
+```
+
+No Windows:
+
+```bat
+install.bat
+```
+
 ## Comandos principais
 
 ```bash
