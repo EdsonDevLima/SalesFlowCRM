@@ -27,14 +27,18 @@ import { AuthMiddleware } from './shared/middleware/auth.middleware';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: ['../.env', '.env'],
     }),
 
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
-        url: configService.get<string>('DATABASE_URL'),
+        port:configService.get<number>('DATABASE_PORT'),
+        database:configService.get<string>('DATABASE_NAME'),
+        password:configService.get<string>('DATABASE_PASSWORD'),
+        username:configService.get<string>('DATABASE_USERNAME'),
+        host:configService.get<string>('DATABASE_HOST'),
         entities: [Product, User, Sale, Adress],
         synchronize: true,
         autoLoadEntities: true,

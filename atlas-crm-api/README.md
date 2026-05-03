@@ -17,12 +17,17 @@ npm run format
 
 ## Variáveis de ambiente
 
-Ajuste o arquivo `.env`:
+A API passa a usar primeiro o `.env` da raiz do monólito. Ajuste `../.env` com:
 
 ```env
 PORT=3000
-DATABASE_URL=mysql://usuario:senha@localhost:3306/salesflow
+DATABASE_HOST=0.0.0.0
+DATABASE_PORT=3306
+DATABASE_NAME=atlascrm
+DATABASE_USERNAME=root
+DATABASE_PASSWORD=root
 SECRET_JWT=sua_chave_jwt
+SERVER_API_KEY=sua_api_key_interna
 ```
 
 ## Documentação completa
