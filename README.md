@@ -7,6 +7,24 @@ Sistema CRM dividido em dois projetos:
 
 O projeto cobre autenticação, dashboard, produtos, clientes, vendas, notificações e upload de imagens de produtos.
 
+## Instalador
+
+Use o instalador na raiz do monólito antes de qualquer outro passo:
+
+### Linux/macOS
+
+```bash
+./install.sh
+```
+
+### Windows
+
+```bat
+install.bat
+```
+
+Os instaladores configuram as dependências do backend e do frontend automaticamente.
+
 ## Estrutura do projeto
 
 ```text
@@ -76,6 +94,8 @@ Notas:
 
 ## Como instalar
 
+Repita o instalador da raiz sempre que precisar preparar o projeto em uma nova máquina:
+
 ### Linux/macOS
 
 ```bash
@@ -87,8 +107,6 @@ Notas:
 ```bat
 install.bat
 ```
-
-Os dois instaladores ficam na raiz e instalam backend e frontend automaticamente.
 
 ## Como rodar localmente
 
