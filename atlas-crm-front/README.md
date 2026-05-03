@@ -14,11 +14,11 @@ npm run lint
 
 ## Variáveis de ambiente
 
-Crie ou ajuste o arquivo `.env`:
+O frontend passa a usar o `.env` da raiz do monólito. Ajuste o arquivo `../.env` com:
 
 ```env
 VITE_API_URL=http://localhost:3000
-VITE_APP_NAME=Atlas CRM
+VITE_SERVER_API_KEY=sua_api_key_interna
 ```
 
 ## Documentação completa
