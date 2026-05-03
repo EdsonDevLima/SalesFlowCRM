@@ -2,6 +2,20 @@
 
 API REST do Atlas CRM construída com NestJS, TypeORM e MySQL.
 
+## Instalador
+
+A API faz parte do monólito e deve ser instalada pela raiz do projeto:
+
+```bash
+./install.sh
+```
+
+No Windows:
+
+```bat
+install.bat
+```
+
 ## Comandos principais
 
 ```bash
