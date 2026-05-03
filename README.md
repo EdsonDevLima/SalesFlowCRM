@@ -52,46 +52,43 @@ Observação: o frontend usa Vite `7`, então vale trabalhar com uma versão mod
 
 ## Variáveis de ambiente
 
-### Frontend
-
-Arquivo: `atlas-crm-front/.env`
-
-```env
-VITE_API_URL=http://localhost:3000
-VITE_APP_NAME=Atlas CRM
-```
-
-### Backend
-
-Arquivo: `atlas-crm-api/.env`
+Arquivo central do monólito: `.env`
 
 ```env
 PORT=3000
-DATABASE_URL=mysql://usuario:senha@localhost:3306/salesflow
+DATABASE_HOST=0.0.0.0
+DATABASE_PORT=3306
+DATABASE_NAME=atlascrm
+DATABASE_USERNAME=root
+DATABASE_PASSWORD=root
 SECRET_JWT=sua_chave_jwt
+SERVER_API_KEY=sua_api_key_interna
+VITE_API_URL=http://localhost:3000
+VITE_SERVER_API_KEY=sua_api_key_interna
 ```
 
 Notas:
 
-- Hoje a API está configurada para usar `DATABASE_URL` no TypeORM.
-- Existem variáveis antigas de banco no `.env`, mas o código ativo usa a URL completa de conexão.
+- O frontend agora lê variáveis da raiz do monólito via `Vite envDir`.
+- O backend agora procura primeiro `../.env` e mantém fallback para `.env` local.
+- O arquivo `.env` da raiz pode ser versionado no repositório.
 - O backend faz `synchronize: true`, então o TypeORM sincroniza as tabelas automaticamente ao subir a aplicação. Isso é prático em desenvolvimento, mas pede cuidado em produção.
 
 ## Como instalar
 
-### 1. Instalar dependências do frontend
+### Linux/macOS
 
 ```bash
-cd atlas-crm-front
-npm install
+./install.sh
 ```
 
-### 2. Instalar dependências do backend
+### Windows
 
-```bash
-cd atlas-crm-api
-npm install
+```bat
+install.bat
 ```
+
+Os dois instaladores ficam na raiz e instalam backend e frontend automaticamente.
 
 ## Como rodar localmente
 
@@ -117,10 +114,11 @@ O frontend sobe normalmente em `http://localhost:5173`.
 
 ### 3. Garantir a comunicação entre os projetos
 
-No arquivo `atlas-crm-front/.env`, configure:
+No arquivo `.env` da raiz, configure:
 
 ```env
 VITE_API_URL=http://localhost:3000
+VITE_SERVER_API_KEY=sua_api_key_interna
 ```
 
 ## Scripts disponíveis
@@ -207,11 +205,11 @@ Roda testes end-to-end.
 
 ## Fluxo recomendado para desenvolvimento local
 
-1. Configure o `.env` do backend com `DATABASE_URL` e `SECRET_JWT`.
+1. Configure o `.env` da raiz com as variáveis de frontend e backend.
 2. Suba o banco MySQL.
-3. Rode `npm install` em `atlas-crm-api` e `atlas-crm-front`.
+3. Rode `./install.sh` ou `install.bat`.
 4. Inicie a API com `npm run start:dev`.
-5. Configure `VITE_API_URL=http://localhost:3000` no frontend.
+5. Confirme `VITE_API_URL=http://localhost:3000` no `.env` da raiz.
 6. Inicie o frontend com `npm run dev`.
 7. Acesse a aplicação no navegador.
 
