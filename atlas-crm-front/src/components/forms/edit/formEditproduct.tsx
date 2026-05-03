@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Style from "./formEditProduct.module.css"
 import { IoClose } from "react-icons/io5";
 import { apiMultiPart } from "../../../service/api"; 
+import { AuthImage } from "../../common/AuthImage";
 import { ButtonLoading } from "../../load/ButtonLoading";
 import { toast } from "react-toastify";
+import notFound from "/public/not_found.jpg";
 
 interface Product {
   id: string;
@@ -237,9 +239,10 @@ useEffect(() => {
             {product.image && !image && (
               <>
                 <p>Imagem atual:</p>
-                <img
-                  src={`${import.meta.env.VITE_API_URL}/products/image/${product.image}`}
+                <AuthImage
+                  src={`products/image/${product.image}`}
                   alt={product.name}
+                  fallback={notFound}
                   className={Style.previewImage}
                 />
               </>

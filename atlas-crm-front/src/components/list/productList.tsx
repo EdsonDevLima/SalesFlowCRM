@@ -11,6 +11,7 @@ import { FormEditProduct } from "../forms/edit/formEditproduct";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ListLoading } from "../load/ListLoading";
+import { AuthImage } from "../common/AuthImage";
 
 export function ProductsList() {
   const [allProducts, setAllProducts] = useState<IProducts[]>([]);
@@ -109,13 +110,10 @@ export function ProductsList() {
               <span className="custom-checkbox"></span>
             </label>
 
-            <img
-              src={
-                i.image
-                  ? `${import.meta.env.VITE_API_URL}/products/image/${i.image}`
-                  : notFound
-              }
+            <AuthImage
+              src={i.image ? `products/image/${i.image}` : undefined}
               alt={i.name}
+              fallback={notFound}
             />
 
             <div className={Styles.aditionalInfor}>
